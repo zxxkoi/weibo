@@ -29,6 +29,7 @@ class Comment(SQLModel):
         u = User.one(id=self.user_id)
         return u
 
+
     # def weibo(self):
     #     from models.weibo import Weibo
     #     w = Weibo.find_by(id=self.weibo_id)

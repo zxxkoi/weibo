@@ -156,3 +156,10 @@ class SQLModel(object):
 
     def json(self):
         return self.__dict__
+
+    @classmethod
+    def all_json(cls):
+        ms = cls.all()
+        # 要转换为 dict 格式才行
+        js = [t.json() for t in ms]
+        return js
