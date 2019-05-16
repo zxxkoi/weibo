@@ -18,8 +18,8 @@ def static(request):
     path = 'static/' + filename
     with open(path, 'rb') as f:
         header = b'HTTP/1.x 200 OK\r\n\r\n'
-        img = header + f.read()
-        return img
+        response = header + f.read()
+        return response
 
 
 def route_dict():

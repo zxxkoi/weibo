@@ -16,9 +16,14 @@ def all(request):
     for w in weibos:
         user_id = w['user_id']
         user = User.one(id=user_id)
-        comments = Comment.all(weibo_id = w['id'])
-        w['comments'] = [c.json() for c in comments]
         w['username'] = user.username
+        comments = Comment.all(weibo_id = w['id'])
+        w['comments'] = []
+        for c in comments:
+            u = User.one(id=c.user_id)
+            c = c.json()
+            c['username'] = u.username
+            w['comments'].append(c)
     return json_response(weibos)
 
 
@@ -27,8 +32,10 @@ def add(request):
     # 创建一个 todo
     u = current_user(request)
     w = Weibo.add(form, u.id)
+    w = w.json()
+    w['username'] = u.username
     # 把创建好的 todo 返回给浏览器
-    return json_response(w.json())
+    return json_response(w)
 
 
 def delete(request):
@@ -57,8 +64,9 @@ def comment_add(request):
     form = request.json()
     u = current_user(request)
     form['user_id'] = u.id
-    c = Comment.new(form)
-    return json_response(c.json())
+    c = Comment.new(form).json()
+    c['username'] = u.username
+    return json_response(c)
 
 
 def comment_update(request):

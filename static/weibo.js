@@ -76,6 +76,7 @@ var commentTemplate = function(comment) {
     var t = `
         <div class="comment-cell" data-id="${comment.id}">
             <p class="comment">
+            <span class="comment-author">${comment.username} :</span>
             <span class="comment-content">${comment.content}</span>
             <button class="comment-edit">编辑</button>
             <button class="comment-delete">删除评论</button>
