@@ -21,6 +21,8 @@ def index(request):
         u = current_user(request)
 
     weibos = Weibo.all(user_id=u.id)
+    # body = Template.render('weibo_index.html', weibos=weibos, user=u)
+    # return html_response(body)
     # 替换模板文件中的标记字符串
     return html_response('weibo_index.html', weibos=weibos, user=u)
 

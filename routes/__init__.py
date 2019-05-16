@@ -9,6 +9,7 @@ from jinja2 import (
 from models.session import Session
 from models.user import User
 from utils import log
+import json
 
 
 def initialized_environment():
@@ -125,6 +126,25 @@ def login_required(route_function):
 
     return f
 
+
+def json_response(data, headers=None):
+    """
+    本函数返回 json 格式的 body 数据
+    前端的 ajax 函数就可以用 JSON.parse 解析出格式化的数据
+    """
+    # 注意, content-type 现在是 application/json 而不是 text/html
+    # 这个不是很要紧, 因为客户端可以忽略这个
+    h = {
+        'Content-Type': 'application/json',
+    }
+    if headers is None:
+        headers = h
+    else:
+        headers.update(h)
+    header = formatted_header(headers)
+    body = json.dumps(data, ensure_ascii=False, indent=2)
+    r = header + '\r\n' + body
+    return r.encode()
 
 # @login_required
 # def f():

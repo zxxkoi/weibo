@@ -10,6 +10,7 @@ from routes import error
 from routes.routes_weibo import route_dict as weibo_routes
 from routes.routes_user import route_dict as user_routes
 from routes.routes_public import route_dict as public_routes
+from routes.api_weibo import route_dict as weibo_api
 
 
 def response_for_path(request):
@@ -22,6 +23,7 @@ def response_for_path(request):
     r.update(weibo_routes())
     r.update(user_routes())
     r.update(public_routes())
+    r.update(weibo_api())
     response = r.get(request.path, error)
     log('路由分发 <{}> -> <{}>'.format(request.path, response))
     return response(request)

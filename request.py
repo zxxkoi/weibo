@@ -1,5 +1,6 @@
 import urllib.parse
 from utils import log
+import json
 
 
 # 定义一个 class 用于保存请求的数据
@@ -64,3 +65,10 @@ class Request(object):
                 query[k] = v
             self.path = path
             self.query = query
+
+
+    def json(self):
+        """
+        把 body 中的 json 格式字符串解析成 dict 或者 list 并返回
+        """
+        return json.loads(self.body)
