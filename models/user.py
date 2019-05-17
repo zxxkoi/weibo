@@ -59,12 +59,16 @@ class User(SQLModel):
 
     @classmethod
     def register(cls, form):
+        u = User.one(username=form['username'])
         valid = len(form['username']) > 2 and len(form['password']) > 2
-        if valid:
+        if valid and u is None:
             form['password'] = cls.salted_password(form['password'])
             u = User.new(form)
             result = '注册成功'
             return u, result
+        elif valid and u is not None:
+            result = '用户名已被注册'
+            return User.guest(), result
         else:
             result = '用户名或者密码长度必须大于2'
             return User.guest(), result
